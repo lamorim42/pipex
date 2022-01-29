@@ -47,8 +47,11 @@ norma:
 
 git:
 	git status
+	@echo ------------------------------------
 	git add .
-	git commit -m $(MSG)
+	@echo ------------------------------------
+	git commit -m "$(MSG)"
+	@echo ------------------------------------
 	git log -n 5
 
 .PHONY: all clean fclean re norma git
