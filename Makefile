@@ -46,6 +46,9 @@ norma:
 	norminette src include
 
 git:
-	echo $(MSG)
+	git status
+	git add .
+	git commit -m $(MSG)
+	git log -n 5
 
-.PHONY: all clean fclean re git
+.PHONY: all clean fclean re norma git
