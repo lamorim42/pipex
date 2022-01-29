@@ -1,3 +1,6 @@
+### Organize
+SEP ="\n\e[0;36m----------------------------------------------\e[0m\n"
+
 ### Names
 NAME		= pipex
 
@@ -47,11 +50,14 @@ norma:
 
 git: fclean
 	git status
-	@echo ------------------------------------
+	@echo $(SEP)
 	git add .
-	@echo ------------------------------------
+	@echo $(SEP)
 	git commit -m "$(MSG)"
-	@echo ------------------------------------
+	@echo $(SEP)
 	git log | head
+
+echo:
+	@echo $(SEP)
 
 .PHONY: all clean fclean re norma git
