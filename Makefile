@@ -20,7 +20,7 @@ OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))
 
 ### Git mensage
-MSG = "Update"
+MSG = Update
 
 ### Default goal
 .DEFAULT_GOAL	= all
@@ -52,6 +52,6 @@ git:
 	@echo ------------------------------------
 	git commit -m "$(MSG)"
 	@echo ------------------------------------
-	git log -n 5
+	git log | head
 
 .PHONY: all clean fclean re norma git
