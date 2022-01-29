@@ -45,7 +45,7 @@ re: fclean all
 norma:
 	norminette src include
 
-git:
+git: fclean
 	git status
 	@echo ------------------------------------
 	git add .
