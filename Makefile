@@ -18,6 +18,8 @@ SRC			= \
 				ft_strjoin.c \
 				ft_strlen.c \
 				ft_substr.c \
+				ft_strchr.c \
+				ft_strtrim.c \
 
 OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))
@@ -45,6 +47,9 @@ fclean: clean
 
 re: fclean all
 
+check:
+	./pipex
+
 norma:
 	norminette src include
 
@@ -55,7 +60,7 @@ git: fclean
 	@echo $(SEP)
 	git commit -m "$(MSG)"
 	@echo $(SEP)
-	git log | head
+	git log | head -n 5
 
 echo:
 	@echo $(SEP)
