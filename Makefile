@@ -62,7 +62,7 @@ git: fclean
 	@echo $(SEP)
 	git log | head -n 5
 
-echo:
-	@echo $(SEP)
+run:
+	valgrind ./pipex infile cat "wc -l" outfile
 
 .PHONY: all clean fclean re norma git
