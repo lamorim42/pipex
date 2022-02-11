@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 20:27:14 by lamorim           #+#    #+#             */
-/*   Updated: 2022/01/30 05:51:02 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/11 09:56:27 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,30 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_init_data(argc, argv, envp, &data);
 	ft_check_argc(&data);
-	data.pid = fork();
-	ft_check_fork(&data);
-	ft_check_infile(&data);
-	if (data.pid == 0)
+	if (pipe(data.fd) == -1)
+		exit(404);
+	data.pid1 = fork();
+	ft_check_fork(data.pid1);
+	if (data.pid1 == 0)
 	{
+		ft_start_pipex(&data);
 		ft_gen_cmd_args(&data);
-		printf("%s\n%s\n", data.cmd.args[0], data.cmd.args[1]);
 		ft_exec_cmd(&data);
 		ft_clean_data(&data);
 	}
-	else
-		waitpid(data.pid, NULL, 0);
+	if (data.pid1 != 0)
+	{
+		data.pid2 = fork();
+		ft_check_fork(data.pid1);
+	}
+	if (data.pid2 == 0)
+	{
+		ft_pipex(&data);
+		ft_change_cmd(&data);
+		ft_gen_cmd_args(&data);
+		ft_exec_cmd(&data);
+		ft_clean_data(&data);
+	}
 	return (0);
 }
 
@@ -44,46 +56,59 @@ void	ft_init_data(int arg_c, char **arg_v, char **env_p, t_data *data)
 	data->cmd.str = data->arg_v[2];
 	data->outfile.name = data->arg_v[4];
 	data->cmd.trim = FALSE;
+	data->cmd.split = FALSE;
+}
+
+void	ft_change_cmd(t_data *data)
+{
+	data->cmd.str = data->arg_v[3];
 }
 
 void	ft_check_argc(t_data *data)
 {
 	if (data->arg_c != 5)
 	{
-		data->err = ft_strdup(ARGC_ERR);
-		write(STDOUT_FILENO, data->err, 37);
-		free(data->err);
+		write(STDOUT_FILENO, ARGC_ERR, 37);
 		exit (1);
 	}
 }
 
-void	ft_check_fork(t_data *data)
+void	ft_check_fork(int pid)
 {
-	if (data->pid == -1)
+	if (pid == -1)
 	{
 		perror("fork");
 		exit (2);
 	}
 }
 
-void	ft_check_infile(t_data *data)
+
+void	ft_start_pipex(t_data *data)
 {
-	if (data->pid == 0)
+	ft_check_infile(&data->infile);
+	data->cmd.path = ft_strjoin("/bin/", data->cmd.args[0]);
+	dup2(data->fd[1], STDOUT_FILENO);
+	close(data->fd[0]);
+	close(data->fd[1]);
+}
+
+void	ft_check_infile(t_file *infile)
+{
+	infile->fd = open(infile->name, O_RDONLY);
+	if (infile->fd == -1)
 	{
-		data->infile.fd = open(data->infile.name, O_RDONLY);
-		if (data->infile.fd == -1)
-		{
-			data->outfile.fd = open(data->outfile.name, \
-			O_WRONLY | O_CREAT, 0644);
-			close(data->outfile.fd);
-			write(STDOUT_FILENO, "\e[0;31m", 8);
-			perror(data->infile.name);
-			write(STDOUT_FILENO, "\e[0m", 8);
-		}
-		//olhar função ft_pipex em olayground
+		perror(infile->name);
 	}
-	else
-		waitpid(data->pid, NULL, 0);
+}
+
+void	ft_pipex(t_data *data)
+{
+	data->outfile.fd = open(data->outfile.name, \
+	O_WRONLY | O_CREAT, 0644);
+	dup2(data->fd[0], STDIN_FILENO);
+	dup2(data->outfile.fd, STDOUT_FILENO);
+	close(data->fd[0]);
+	close(data->fd[1]);
 }
 
 void	ft_clean_data(t_data *data)
@@ -120,10 +145,6 @@ void	ft_gen_cmd_args(t_data *data)
 
 void	ft_exec_cmd(t_data *data)
 {
-	data->cmd.path = ft_strjoin("/bin/", data->cmd.args[0]);
-	printf("%s\n", data->cmd.path);
-	if (data->pid == 0)
-		data->f = execve(data->cmd.path, data->cmd.args, data->env_p);
-	if (data->f == -1)
-		printf("Erro execve\n");
+	if (execve(data->cmd.path, data->cmd.args, data->env_p) == -1)
+		perror("Erro execve");
 }

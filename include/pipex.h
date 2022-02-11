@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/01/30 05:14:43 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/11 09:56:00 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_file
 {
 	const char	*name;
 	int			fd;
+	int			file_ok;
 }				t_file;
 
 typedef struct s_cmd
@@ -39,6 +40,7 @@ typedef struct s_cmd
 	char	*str;
 	char	**args;
 	int		trim;
+	int		split;
 	char	*path;
 }			t_cmd;
 
@@ -47,19 +49,22 @@ typedef struct s_data
 	int		arg_c;
 	char	**arg_v;
 	char	**env_p;
-	int		pid;
+	int		pid1;
+	int		pid2;
 	t_file	infile;
 	t_file	outfile;
 	t_cmd	cmd;
-	char	*err;
-	int		f;
+	int		fd[2];
 }			t_data;
 
-void	ft_check_infile(t_data *data);
+void	ft_check_infile(t_file *infile);
+void	ft_start_pipex(t_data *data);
+void	ft_pipex(t_data *data);
 void	ft_check_argc(t_data *data);
-void	ft_check_fork(t_data *data);
+void	ft_check_fork(int pid);
 void	ft_init_data(int arg_c, char **arg_v, char **env_p, t_data *data);
 void	ft_gen_cmd_args(t_data *data);
+void	ft_change_cmd(t_data *data);
 void	ft_clean_data(t_data *data);
 
 // Legacy functions
