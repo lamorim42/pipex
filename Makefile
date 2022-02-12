@@ -13,13 +13,16 @@ CFLAGS		= -g3 -Wall -Werror -Wextra -I include
 
 SRC			= \
 				pipex.c \
+				handle_cmd.c \
+				handle_data.c \
+				handle_pipex.c \
+				check_functions.c \
 				ft_split.c \
 				ft_strdup.c \
 				ft_strjoin.c \
 				ft_strlen.c \
 				ft_substr.c \
 				ft_strchr.c \
-				ft_strtrim.c \
 
 OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))
@@ -63,6 +66,10 @@ git: fclean
 	git log | head -n 5
 
 run:
+	rm -f outfile
+	./pipex infile cat "wc -c" outfile
+
+runv:
 	valgrind ./pipex infile cat "wc -l" outfile
 
 .PHONY: all clean fclean re norma git
