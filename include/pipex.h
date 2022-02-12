@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/11 09:56:00 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/11 21:54:16 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_data
 	t_file	outfile;
 	t_cmd	cmd;
 	int		fd[2];
+	int		ex_sts;
 }			t_data;
 
 void	ft_check_infile(t_file *infile);
