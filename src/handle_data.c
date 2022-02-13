@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:42:09 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/12 14:17:59 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/13 19:05:49 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ void	ft_clean_data(t_data *data)
 	}
 	free(data->cmd.args);
 	free(data->cmd.path);
+}
+
+void	ft_free_mtx(char ***mtx)
+{
+	int	i;
+
+	i = 0;
+	while ((*mtx)[i++])
+		free((*mtx)[i]);
+	free(*mtx);
 }

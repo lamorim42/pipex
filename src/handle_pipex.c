@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 14:16:26 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/12 14:29:24 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/13 18:16:40 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_start_pipex(t_data *data)
 {
 	ft_check_infile(&data->infile);
-	data->cmd.path = ft_strjoin("/bin/", data->cmd.args[0]);
+	ft_find_path(data);
 	dup2(data->infile.fd, STDIN_FILENO);
 	dup2(data->fd[WRITE], STDOUT_FILENO);
 	close(data->fd[WRITE]);
@@ -25,7 +25,7 @@ void	ft_start_pipex(t_data *data)
 
 void	ft_pipex(t_data *data)
 {
-	data->cmd.path = ft_strjoin("/bin/", data->cmd.args[0]);
+	ft_find_path(data);
 	data->outfile.fd = open(data->outfile.name, \
 	O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	dup2(data->fd[READ], STDIN_FILENO);

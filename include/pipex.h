@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/12 14:27:29 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/13 19:11:55 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 //Pipe
 # define READ 0
 # define WRITE 1
+
+//Utils
+# define COLON 72
+# define SLASH "/"
 
 typedef struct s_file
 {
@@ -69,7 +73,9 @@ void	ft_init_data(int arg_c, char **arg_v, char **env_p, t_data *data);
 void	ft_gen_cmd_args(t_data *data);
 void	ft_change_cmd(t_data *data);
 void	ft_exec_cmd(t_data *data);
+void	ft_find_path(t_data *data);
 void	ft_clean_data(t_data *data);
+void	ft_free_mtx(char ***mtx);
 
 // Legacy functions
 size_t	ft_strlen(const char *s);
@@ -79,5 +85,7 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	**ft_split(const char *s, char c);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strtrim(const char *s1, const char *set);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strnstr(const char *big, const char *little, size_t len);
 
 #endif

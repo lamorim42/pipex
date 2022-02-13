@@ -23,6 +23,8 @@ SRC			= \
 				ft_strlen.c \
 				ft_substr.c \
 				ft_strchr.c \
+				ft_strnstr.c \
+				ft_strncmp.c \
 
 OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))
@@ -67,7 +69,7 @@ git: fclean
 
 run:
 	rm -f outfile
-	./pipex infile cat "wc -c" outfile
+	./pipex infile cat "wc -l" outfile
 
 runv:
 	valgrind ./pipex infile cat "wc -l" outfile
