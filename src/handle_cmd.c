@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:36:20 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/13 19:12:39 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/13 22:09:40 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,31 @@ void	ft_change_cmd(t_data *data)
 
 void	ft_gen_cmd_args(t_data *data)
 {
+	char	*start;
+	char	*end;
+	int		flag;
+	char	c;
+
+	flag = FALSE;
+	start = ft_strchr(data->cmd.str, 39);
+	if (start)
+	{
+		end = ft_strrchr(data->cmd.str, 39);
+		if (start != end)
+		{
+			c = *(start + 1);
+			ft_bzero(start + 1, (end - start));
+			flag = TRUE;
+		}
+	}
 	data->cmd.args = ft_split(data->cmd.str, ' ');
 	if (!data->cmd.args)
 	{
 		write(STDOUT_FILENO, "Erro: command string generation!\n", 33);
 		exit (3);
 	}
+	if (flag)
+		data->cmd.args[2][0] = c;
 }
 
 static char	*ft_search_path(char **env_p)

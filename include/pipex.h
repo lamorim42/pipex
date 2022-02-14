@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/13 19:11:55 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/13 20:49:53 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define WRITE 1
 
 //Utils
-# define COLON 72
+# define COLON 58
 # define SLASH "/"
 
 typedef struct s_file
@@ -84,8 +84,10 @@ char	*ft_strdup(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	**ft_split(const char *s, char c);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(const char *s1, const char *set);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
+void	ft_bzero(void *s, size_t n);
 
 #endif
