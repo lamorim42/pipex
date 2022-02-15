@@ -27,6 +27,7 @@ SRC			= \
 				ft_strnstr.c \
 				ft_strncmp.c \
 				ft_bzero.c \
+				ft_memset.c \
 
 OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))

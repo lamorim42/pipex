@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_pipex.c                                     :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/12 14:16:26 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/14 23:11:46 by lamorim          ###   ########.fr       */
+/*   Created: 2021/07/28 14:46:36 by lamorim           #+#    #+#             */
+/*   Updated: 2022/02/14 11:43:28 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_start_pipex(t_data *data)
+void	*ft_memset(void *str, int c, size_t n)
 {
-	ft_find_path(data);
-	dup2(data->infile.fd, STDIN_FILENO);
-	dup2(data->fd[WRITE], STDOUT_FILENO);
-	close(data->fd[WRITE]);
-	close(data->fd[READ]);
-	close(data->infile.fd);
-}
+	size_t	i;
+	char	*s;
 
-void	ft_pipex(t_data *data)
-{
-	ft_find_path(data);
-	dup2(data->fd[READ], STDIN_FILENO);
-	dup2(data->outfile.fd, STDOUT_FILENO);
-	close(data->fd[READ]);
-	close(data->fd[WRITE]);
-	close(data->outfile.fd);
+	s = (char *) str;
+	i = 0;
+	while (i < n)
+	{
+		s[i] = c;
+		i++;
+	}
+	return (s);
 }

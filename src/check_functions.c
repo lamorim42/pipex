@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 14:03:20 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/12 14:04:12 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/14 22:22:0 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,17 @@ void	ft_check_infile(t_file *infile)
 	{
 		infile->file_ok = FALSE;
 		perror(infile->name);
+		exit(1);
 	}
+}
+
+void	ft_check_outfile(t_file *outfile)
+{
+		outfile->fd = open(outfile->name, \
+		O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (outfile->fd == -1)
+		{
+			perror(outfile->name);
+			exit(1);
+		}
 }

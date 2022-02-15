@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/13 20:49:53 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/14 23:01:50 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,17 @@
 
 //Utils
 # define COLON 58
+# define SNG_QUOTE 39
 # define SLASH "/"
+
+
+typedef struct s_token
+{
+	char	*str;
+	char	*start;
+	char	*end;
+	int		flag;
+}				t_token;
 
 typedef struct s_file
 {
@@ -65,6 +75,7 @@ typedef struct s_data
 }			t_data;
 
 void	ft_check_infile(t_file *infile);
+void	ft_check_outfile(t_file *outfile);
 void	ft_check_argc(t_data *data);
 void	ft_check_fork(int pid);
 void	ft_start_pipex(t_data *data);
@@ -89,5 +100,7 @@ char	*ft_strtrim(const char *s1, const char *set);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 void	ft_bzero(void *s, size_t n);
+void	*ft_memset(void *str, int c, size_t n);
+
 
 #endif
