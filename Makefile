@@ -4,12 +4,9 @@ SEP ="\n\e[0;36m--------------------------------------------------------\e[0m\n"
 ### Names
 NAME		= pipex
 
-### Paths
-VPATH		= src include
-
 ### Compilation configuration
 CC			= gcc
-CFLAGS		= -g3 -Wall -Werror -Wextra -I include
+CFLAGS		= -g3 -Wall -Werror -Wextra
 
 SRC			= \
 				pipex.c \
@@ -32,7 +29,6 @@ SRC			= \
 				ft_putstr_fd.c
 
 OBJ			= $(SRC:.c=.o)
-OBJ_PATH	= $(addprefix obj/, $(OBJ))
 
 ### Git mensage
 MSG = Update
@@ -46,11 +42,11 @@ obj/%.o: %.c
 
 all: $(NAME)
 
-$(NAME): $(OBJ_PATH)
-		$(CC) $(CFLAGS) $(OBJ_PATH) -o $(NAME)
+$(NAME): $(OBJ)
+		$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-	rm -f $(OBJ_PATH)
+	rm -f $(OBJ)
 
 fclean: clean
 	rm -f $(NAME)
@@ -61,7 +57,7 @@ check:
 	./pipex
 
 norma:
-	norminette src include
+	norminette
 
 git: fclean
 	git status
