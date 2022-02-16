@@ -43,11 +43,11 @@ void	ft_check_infile(t_file *infile)
 
 void	ft_check_outfile(t_file *outfile)
 {
-		outfile->fd = open(outfile->name, \
-		O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (outfile->fd == -1)
-		{
-			perror(outfile->name);
-			exit(1);
-		}
+	outfile->fd = open(outfile->name, \
+	O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (outfile->fd == -1)
+	{
+		perror(outfile->name);
+		exit(1);
+	}
 }

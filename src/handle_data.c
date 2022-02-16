@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:42:09 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/14 23:08:13 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/15 20:45:27 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ft_init_data(int arg_c, char **arg_v, char **env_p, t_data *data)
 	data->cmd.str = data->arg_v[2];
 	data->outfile.name = data->arg_v[4];
 	data->cmd.args = NULL;
+	data->cmd.path = NULL;
 	data->exit_status = 0;
 }
 
@@ -30,13 +31,16 @@ void	ft_clean_data(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->cmd.args[i])
+	if (data)
 	{
-		free(data->cmd.args[i]);
-		i++;
+		while (data->cmd.args[i])
+		{
+			free(data->cmd.args[i]);
+			i++;
+		}
+		free(data->cmd.args);
+		free(data->cmd.path);
 	}
-	free(data->cmd.args);
-	free(data->cmd.path);
 }
 
 void	ft_free_mtx(char ***mtx)
@@ -44,7 +48,10 @@ void	ft_free_mtx(char ***mtx)
 	int	i;
 
 	i = 0;
-	while ((*mtx)[i++])
+	while ((*mtx)[i])
+	{
 		free((*mtx)[i]);
+		i++;
+	}
 	free(*mtx);
 }

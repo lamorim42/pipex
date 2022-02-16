@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/29 19:49:35 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/14 23:01:50 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/15 21:41:20 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # define COLON 58
 # define SNG_QUOTE 39
 # define SLASH "/"
-
 
 typedef struct s_token
 {
@@ -78,15 +77,20 @@ void	ft_check_infile(t_file *infile);
 void	ft_check_outfile(t_file *outfile);
 void	ft_check_argc(t_data *data);
 void	ft_check_fork(int pid);
+void	ft_init_pipex(t_data *data);
 void	ft_start_pipex(t_data *data);
+void	ft_fork_one(t_data *data);
 void	ft_pipex(t_data *data);
+void	ft_fork_two(t_data *data);
 void	ft_init_data(int arg_c, char **arg_v, char **env_p, t_data *data);
 void	ft_gen_cmd_args(t_data *data);
 void	ft_change_cmd(t_data *data);
 void	ft_exec_cmd(t_data *data);
 void	ft_find_path(t_data *data);
 void	ft_clean_data(t_data *data);
+void	ft_token(t_data *data, t_token *token);
 void	ft_free_mtx(char ***mtx);
+void	ft_free_path(char ***arr, char **cmd);
 
 // Legacy functions
 size_t	ft_strlen(const char *s);
@@ -101,6 +105,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *str, int c, size_t n);
-
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

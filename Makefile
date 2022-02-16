@@ -14,6 +14,7 @@ CFLAGS		= -g3 -Wall -Werror -Wextra -I include
 SRC			= \
 				pipex.c \
 				handle_cmd.c \
+				handle_cmd_utils.c \
 				handle_data.c \
 				handle_pipex.c \
 				check_functions.c \
@@ -28,6 +29,7 @@ SRC			= \
 				ft_strncmp.c \
 				ft_bzero.c \
 				ft_memset.c \
+				ft_putstr_fd.c
 
 OBJ			= $(SRC:.c=.o)
 OBJ_PATH	= $(addprefix obj/, $(OBJ))

@@ -6,7 +6,7 @@
 /*   By: lamorim <lamorim@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 12:36:20 by lamorim           #+#    #+#             */
-/*   Updated: 2022/02/14 23:01:40 by lamorim          ###   ########.fr       */
+/*   Updated: 2022/02/15 21:28:26 by lamorim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	ft_change_cmd(t_data *data)
 void	ft_gen_cmd_args(t_data *data)
 {
 	t_token	token;
-	char	*temp;
-	int		i;
 
-	i = 0;
 	token.flag = FALSE;
 	token.start = ft_strchr(data->cmd.str, SNG_QUOTE);
 	if (token.start)
@@ -46,13 +43,7 @@ void	ft_gen_cmd_args(t_data *data)
 		exit (3);
 	}
 	if (token.flag)
-	{
-		while (data->cmd.args[i][1] != '%')
-			i++;
-		temp = data->cmd.args[i];
-		data->cmd.args[i] = token.start;
-		free(temp);
-	}
+		ft_token(data, &token);
 }
 
 static char	*ft_search_path(char **env_p)
@@ -66,7 +57,7 @@ static char	*ft_search_path(char **env_p)
 		if (ft_strnstr(env_p[i], "PATH", 4))
 			break ;
 	}
-	path = ft_strchr(env_p[i], '/');
+	path = ft_strchr(env_p[i], '=') + 1;
 	return (path);
 }
 
@@ -77,23 +68,25 @@ void	ft_find_path(t_data *data)
 	char	*cmd;
 	int		i;
 
-	i = 0;
+	i = -1;
 	path = ft_search_path(data->env_p);
 	arr = ft_split(path, COLON);
 	cmd = ft_strjoin(SLASH, data->cmd.args[0]);
-	while (TRUE)
+	while (arr[++i])
 	{
 		data->cmd.path = ft_strjoin(arr[i], cmd);
-		if (!access(data->cmd.path, F_OK))
+		if (data->cmd.path && !access(data->cmd.path, F_OK | X_OK))
 		{
-			ft_free_mtx(&arr);
-			free(cmd);
-			break ;
+			ft_free_path(&arr, &cmd);
+			return ;
 		}
 		else
+		{
 			free(data->cmd.path);
-		i++;
+			data->cmd.path = NULL;
+		}
 	}
+	ft_free_path(&arr, &cmd);
 }
 
 void	ft_exec_cmd(t_data *data)
@@ -103,9 +96,11 @@ void	ft_exec_cmd(t_data *data)
 		write(STDOUT_FILENO, "\0", 1);
 		return ;
 	}
-	if (execve(data->cmd.path, data->cmd.args, data->env_p) == -1)
+	if (!data->cmd.path || \
+	execve(data->cmd.path, data->cmd.args, data->env_p) == -1)
 	{
-		perror("Erro execve");
+		ft_putstr_fd(data->cmd.args[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		ft_clean_data(data);
 		exit(127);
 	}
